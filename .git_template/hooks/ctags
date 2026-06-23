@@ -1,0 +1,11 @@
+#!/bin/sh
+set -e
+PATH="/usr/local/bin:$PATH"
+trap 'rm -f "$$.tags"' EXIT
+git ls-files | ctags --tag-relative -L - -f"$$.tags"
+mv "$$.tags" "tags"
+
+# This creates a tags file on repo updates
+# For a private repo, I already have global gitignore for *tags
+# For a shared repo, add *tags to .git/info/exclude
+# Otherwise, tags file will need to be tracked
